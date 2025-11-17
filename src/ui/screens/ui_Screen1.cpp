@@ -3,8 +3,9 @@
 // LVGL version: 9.1.0
 // Project name: bs_kettle_fill
 
-#include "ui.h"
+#include "ui/ui.h"
 #include "Globals.h"
+#include "events/events.h"
 
 lv_obj_t *uic_ConfirmLabel1;
 lv_obj_t *uic_UserDisplayLabel;
@@ -19,13 +20,13 @@ lv_obj_t *ui_ConfirmUserButton = NULL;
 lv_obj_t *ui_UserDisplayLabel = NULL;
 lv_obj_t *ui_ConfirmLabel1 = NULL;
 // event funtions
-void ui_event_Dropdown1(lv_event_t *e)
+void ui_event_user_dropdown(lv_event_t *e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if (event_code == LV_EVENT_VALUE_CHANGED)
     {
-        DropdownEvent1(e);
+        handleUserDropdownEvent(e);
         (e);
     }
 }
@@ -122,7 +123,7 @@ void ui_Screen1_screen_init(void)
     lv_label_set_text(ui_ConfirmLabel1, "Confirm");
     lv_obj_set_style_text_font(ui_ConfirmLabel1, &lv_font_montserrat_40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_Dropdown1, ui_event_Dropdown1, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Dropdown1, ui_event_user_dropdown, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ConfirmUserButton, ui_event_ConfirmUserButton, LV_EVENT_ALL, NULL);
     uic_BSLogo = ui_BSLogo;
     uic_SelectUserLabel = ui_SelectUserLabel;

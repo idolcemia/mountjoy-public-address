@@ -14,7 +14,7 @@ extern "C" {
 extern void ui_Screen1_screen_init(void);
 extern void ui_Screen1_screen_destroy(void);
 extern lv_obj_t *ui_Screen1;
-extern void ui_event_Dropdown1( lv_event_t * e);
+extern void ui_event_user_dropdown( lv_event_t * e);
 extern lv_obj_t *ui_Dropdown1;
 extern lv_obj_t *ui_BSLogo;
 extern lv_obj_t *ui_SelectUserLabel;

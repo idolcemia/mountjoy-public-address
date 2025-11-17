@@ -23,10 +23,9 @@ extern "C" {
 #endif
 
 #include "ui_helpers.h"
-#include "ui_events.h"
 
 ///////////////////// SCREENS ////////////////////
-#include "ui_Screen1.h"
+#include "screens/ui_Screen1.h"
 #include "ui_Screen2.h"
 
 ///////////////////// VARIABLES ////////////////////
