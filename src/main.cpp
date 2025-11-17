@@ -19,7 +19,6 @@
 #include <NetworkManager.h>
 #include <WiFi/WiFiNetworkManager.h>
 #include <RumpshiftLogger.h>
-// #include <HTTP/PostLogHttp.h>
 #include <WiFi/WiFiClientWrapper.h>
 #include <HttpResponse.h>
 #include <Users.h>
@@ -54,12 +53,12 @@ void setup()
     logger.begin();
     logger.info("Starting log....");
     network->setRemote(server, port);
-    network->begin();
-    network->printStatus();
+    // network->begin();
+    // network->printStatus();
 
-    wifiClient.begin(&logger);
-    users = new Users(wifiClient, &logger);
-    _getUsers();
+    // wifiClient.begin(&logger);
+    // users = new Users(wifiClient, &logger);
+    // _getUsers();
 
     Display.begin();
     TouchDetector.begin();

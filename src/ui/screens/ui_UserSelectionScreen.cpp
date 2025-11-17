@@ -19,6 +19,7 @@ lv_obj_t *ui_SelectUserLabel = NULL;
 lv_obj_t *ui_ConfirmUserButton = NULL;
 lv_obj_t *ui_UserDisplayLabel = NULL;
 lv_obj_t *ui_ConfirmLabel1 = NULL;
+
 // event funtions
 void ui_event_user_dropdown(lv_event_t *e)
 {
