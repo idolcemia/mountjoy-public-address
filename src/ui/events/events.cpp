@@ -4,6 +4,17 @@
 #include "Globals.h"
 #include "ui/screens/ui_DebugLogScreen.h"
 
+void handleMenuSelectionDropdownEvent(lv_event_t *e)
+{
+    uint16_t selected = getDropdownSelection(e);
+}
+
+void handleMenuSelectionButtonEvent(lv_event_t *e)
+{
+    logger.info("button pressed");
+    // uint16_t selected = getDropdownSelection(e);
+}
+
 void handleUserDropdownEvent(lv_event_t *e)
 {
     // Cast void* to lv_obj_t* (required in LVGL 9)
@@ -93,3 +104,15 @@ void handleConnectWiFiButton(lv_event_t *e)
 }
 
 void handleWifiDropdownEvent(lv_event_t *e) {}
+
+uint16_t getDropdownSelection(lv_event_t *e)
+{
+    // Cast void* to lv_obj_t* (required in LVGL 9)
+    lv_obj_t *dd = (lv_obj_t *)lv_event_get_target(e);
+    uint16_t selected = lv_dropdown_get_selected(dd);
+
+    logger.info("Dropdown1 selected index: ");
+    logger.info(selected);
+
+    return selected;
+}

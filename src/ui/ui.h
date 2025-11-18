@@ -25,6 +25,7 @@ extern "C" {
 #include "ui_helpers.h"
 
 ///////////////////// SCREENS ////////////////////
+#include "screens/ui_MenuSelectionScreen.h"
 #include "screens/ui_UserSelectionScreen.h"
 #include "screens/ui_WiFiConnect.h"
 #include "ui_Screen2.h"
