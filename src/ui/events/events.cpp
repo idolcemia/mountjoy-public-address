@@ -2,6 +2,7 @@
 #include "events.h"
 #include "ui/ui.h"
 #include "Globals.h"
+#include "ui/screens/ui_DebugLogScreen.h"
 
 void handleUserDropdownEvent(lv_event_t *e)
 {
@@ -32,6 +33,12 @@ void handleUserDropdownEvent(lv_event_t *e)
 
 void handleConnectWiFiButton(lv_event_t *e)
 {
+
+    // Load the debug screen before connecting
+    ui_DebugLog_screen_init();
+
+    logger.info("Starting WiFi connection...");
+
     if (!ui_WiFiDropdown)
         return;
 
@@ -39,6 +46,13 @@ void handleConnectWiFiButton(lv_event_t *e)
     lv_dropdown_get_selected_str(ui_WiFiDropdown, ssid, sizeof(ssid));
     if (strlen(ssid) == 0)
         return;
+
+    // --- Disable button while connecting ---
+    lv_obj_add_state(ui_ConnectWiFiButton, LV_STATE_DISABLED);
+
+    // Change button label to "Connecting..."
+    lv_obj_t *label = lv_obj_get_child(ui_ConnectWiFiButton, 0);
+    lv_label_set_text(label, "Connecting...");
 
     // --- SHOW CONNECTING ---
     lv_label_set_text(ui_WiFiStatusLabel, "Connecting...");
@@ -53,6 +67,7 @@ void handleConnectWiFiButton(lv_event_t *e)
 
     // --- BLOCKING CONNECT ---
     network->begin();
+    bool connected = (WiFi.status() == WL_CONNECTED);
     network->printStatus();
 
     // --- FINAL RESULT ---
@@ -61,6 +76,20 @@ void handleConnectWiFiButton(lv_event_t *e)
         "Status: %s",
         WiFi.status() == WL_CONNECTED ? "Connected" : "Failed");
     lv_obj_invalidate(ui_WiFiStatusLabel);
+
+    // --- Update button after result ---
+    lv_obj_clear_state(ui_ConnectWiFiButton, LV_STATE_DISABLED);
+
+    if (connected)
+    {
+        lv_label_set_text(label, "Next"); // change button text
+    }
+    else
+    {
+        lv_label_set_text(label, "Connect"); // reset to original
+    }
+
+    lv_refr_now(NULL);
 }
 
 void handleWifiDropdownEvent(lv_event_t *e) {}
