@@ -3,8 +3,6 @@
 #include "ui/ui.h"
 #include "ui/events/events.h"
 
-Menus menus;
-
 lv_obj_t *ui_MenuSelectionScreen = nullptr;
 lv_obj_t *ui_MenuDropdown = nullptr;
 lv_obj_t *ui_ConfirmMenuButton = nullptr;

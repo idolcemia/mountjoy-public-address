@@ -16,8 +16,8 @@
 #include "ui/ui.h"
 
 // --- Internal libs ---
-#include <NetworkManager.h>
-#include <WiFi/WiFiNetworkManager.h>
+// #include <NetworkManager.h>
+// #include <WiFi/WiFiNetworkManager.h>
 #include <RumpshiftLogger.h>
 #include <WiFi/WiFiClientWrapper.h>
 #include <HttpResponse.h>
@@ -25,25 +25,10 @@
 #include <Diagnostic.h>
 
 #include "config.h"
-
-const char *ssid = WIFI_SSID;
-const char *password = WIFI_PASS;
-
-const char *server = LAN_IP;
-const int port = 8000;
-
-WiFiClientWrapper wifiClient;
-
-RumpshiftLogger logger(BAUD_RATE, DEBUG_LEVEL, true);
-NetworkManager *network = new WiFiNetworkManager(
-    ssid,
-    password,
-    WiFiImpl::ARDUINO_WIFI,
-    &logger);
+#include "Globals.h"
 
 Arduino_H7_Video Display(800, 480, GigaDisplayShield);
 Arduino_GigaDisplayTouch TouchDetector;
-Users *users = nullptr;
 
 void _getUsers();
 void _log();
