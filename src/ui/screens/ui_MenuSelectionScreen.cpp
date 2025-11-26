@@ -2,6 +2,7 @@
 #include "Globals.h" // for logger and network
 #include "ui/ui.h"
 #include "ui/events/events.h"
+#include "ui/screens/ui_GlobalButtons.h"
 
 lv_obj_t *ui_MenuSelectionScreen = nullptr;
 lv_obj_t *ui_MenuDropdown = nullptr;
@@ -55,6 +56,11 @@ void ui_update_network_status()
     }
 }
 
+void ui_MenuSelection_screen_start()
+{
+    Menus::getInstance().menus.loadMenu("Menu Selection");
+}
+
 // Initialize the screen
 void ui_MenuSelection_screen_init()
 {
@@ -68,7 +74,9 @@ void ui_MenuSelection_screen_init()
 
     // --- Dropdown ---
     ui_MenuDropdown = lv_dropdown_create(ui_MenuSelectionScreen);
-    lv_dropdown_set_options(ui_MenuDropdown, Menus::getInstance().menus.getMenusDelimit("\n").c_str());
+    lv_dropdown_set_options(
+        ui_MenuDropdown,
+        Menus::getInstance().menus.getMenusDelimit("\n", "Menu Selection").c_str());
     lv_obj_set_size(ui_MenuDropdown, 314, 50);
     lv_obj_align(ui_MenuDropdown, LV_ALIGN_CENTER, 0, 50);
     lv_obj_add_flag(ui_MenuDropdown, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
@@ -109,10 +117,11 @@ void ui_MenuSelection_screen_init()
     lv_obj_set_size(ui_MenuLogo, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
     lv_obj_align(ui_MenuLogo, LV_ALIGN_TOP_MID, 0, 10);
 
+    ui_GlobalButtons::initGlobalButtons();
+
     // Load the screen
     lv_scr_load(ui_MenuSelectionScreen);
     // lv_scr_load_anim(ui_MenuSelectionScreen, LV_SCR_LOAD_ANIM_FADE_ON, 300, 0, true);
-
 }
 
 void ui_MenuSelection_screen_destroy()

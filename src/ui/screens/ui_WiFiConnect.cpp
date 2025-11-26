@@ -2,6 +2,7 @@
 // Production-ready WiFi Connect screen modeled after ui_UserSelection
 
 #include "ui/ui.h"
+#include "ui/screens/labels/ui_GlobalLabels.h"
 #include "Globals.h"
 #include "ui/events/events.h"
 #include "ui_WiFiConnect.h"
@@ -11,11 +12,11 @@
 lv_obj_t *uic_WiFiStatusLabel;
 lv_obj_t *uic_SelectSSIDLabel;
 lv_obj_t *uic_ConnectWiFiButton;
-lv_obj_t *ui_WiFiConnectScreen = NULL;
-lv_obj_t *ui_WiFiDropdown = NULL;
-lv_obj_t *ui_ConnectWiFiButton = NULL;
-lv_obj_t *ui_SelectSSIDLabel = NULL;
-lv_obj_t *ui_WiFiStatusLabel = NULL;
+lv_obj_t *ui_WiFiConnectScreen = nullptr;
+lv_obj_t *ui_WiFiDropdown = nullptr;
+lv_obj_t *ui_ConnectWiFiButton = nullptr;
+lv_obj_t *ui_SelectSSIDLabel = nullptr;
+lv_obj_t *ui_WiFiStatusLabel = nullptr;
 
 static String buildDropdownOptionsFromScan()
 {
@@ -49,7 +50,7 @@ void ui_event_ConnectWiFiButton(lv_event_t *e)
 
 void ui_WiFiConnect_screen_init(void)
 {
-    ui_WiFiConnectScreen = lv_obj_create(NULL);
+    ui_WiFiConnectScreen = lv_obj_create(nullptr);
     lv_obj_remove_flag(ui_WiFiConnectScreen, LV_OBJ_FLAG_SCROLLABLE);
 
     // Background styling to match UserSelection screen
@@ -112,19 +113,22 @@ void ui_WiFiConnect_screen_init(void)
     lv_obj_set_style_text_color(ui_WiFiStatusLabel, lv_color_hex(0x000000), LV_PART_MAIN);
     lv_obj_set_style_text_font(ui_WiFiStatusLabel, &lv_font_montserrat_40, LV_PART_MAIN);
 
-    lv_obj_align_to(ui_WiFiStatusLabel,
-                    ui_ConnectWiFiButton,
-                    LV_ALIGN_OUT_TOP_MID,
-                    0, -10);
+    lv_obj_align_to(
+        ui_WiFiStatusLabel,
+        ui_ConnectWiFiButton,
+        LV_ALIGN_OUT_TOP_MID,
+        0, -10);
 
     // Hook events
-    lv_obj_add_event_cb(ui_WiFiDropdown, ui_event_wifi_dropdown, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_ConnectWiFiButton, ui_event_ConnectWiFiButton, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_WiFiDropdown, ui_event_wifi_dropdown, LV_EVENT_ALL, nullptr);
+    lv_obj_add_event_cb(ui_ConnectWiFiButton, ui_event_ConnectWiFiButton, LV_EVENT_ALL, nullptr);
 
     // Expose uic_ vars
     uic_SelectSSIDLabel = ui_SelectSSIDLabel;
     uic_ConnectWiFiButton = ui_ConnectWiFiButton;
     uic_WiFiStatusLabel = ui_WiFiStatusLabel;
+
+    ui_GlobalLabels::initNetworkStatus(ui_WiFiConnectScreen);
 
     // Load this screen
     lv_scr_load(ui_WiFiConnectScreen);
@@ -134,14 +138,18 @@ void ui_WiFiConnect_screen_init(void)
 void ui_WiFiConnect_screen_destroy(void)
 {
     if (ui_WiFiConnectScreen)
-        lv_obj_del(ui_WiFiConnectScreen);
+    {
+        // remove all children safely
+        lv_obj_clean(ui_WiFiConnectScreen);
+    }
 
-    ui_WiFiConnectScreen = NULL;
-    ui_WiFiDropdown = NULL;
-    uic_SelectSSIDLabel = NULL;
-    ui_SelectSSIDLabel = NULL;
-    uic_ConnectWiFiButton = NULL;
-    ui_ConnectWiFiButton = NULL;
-    uic_WiFiStatusLabel = NULL;
-    ui_WiFiStatusLabel = NULL;
+    // DO NOT lv_obj_del(ui_WiFiConnectScreen);
+
+    ui_WiFiDropdown = nullptr;
+    uic_SelectSSIDLabel = nullptr;
+    ui_SelectSSIDLabel = nullptr;
+    uic_ConnectWiFiButton = nullptr;
+    ui_ConnectWiFiButton = nullptr;
+    uic_WiFiStatusLabel = nullptr;
+    ui_WiFiStatusLabel = nullptr;
 }

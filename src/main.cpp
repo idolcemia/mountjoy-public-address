@@ -28,6 +28,7 @@
 
 #include "config.h"
 #include "Globals.h"
+#include "ui/screens/labels/ui_GlobalLabels.h"
 
 Arduino_H7_Video Display(800, 480, GigaDisplayShield);
 Arduino_GigaDisplayTouch TouchDetector;
@@ -56,6 +57,8 @@ void setup()
 void loop()
 {
     lv_timer_handler();
+    ui_GlobalLabels::updateNetworkStatus();
+    ui_GlobalLabels::networkChecked();
 
     // Only update once LVGL is stable
     if (millis() > 3000) // wait 3s after boot

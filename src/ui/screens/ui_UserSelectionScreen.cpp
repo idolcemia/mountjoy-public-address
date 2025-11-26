@@ -12,13 +12,13 @@ lv_obj_t *uic_UserDisplayLabel;
 lv_obj_t *uic_ConfirmUserButton;
 lv_obj_t *uic_SelectUserLabel;
 lv_obj_t *uic_BSLogo;
-lv_obj_t *ui_UserSelectionScreen = NULL;
-lv_obj_t *ui_Dropdown1 = NULL;
-lv_obj_t *ui_BSLogo = NULL;
-lv_obj_t *ui_SelectUserLabel = NULL;
-lv_obj_t *ui_ConfirmUserButton = NULL;
-lv_obj_t *ui_UserDisplayLabel = NULL;
-lv_obj_t *ui_ConfirmLabel1 = NULL;
+lv_obj_t *ui_UserSelectionScreen = nullptr;
+lv_obj_t *ui_Dropdown1 = nullptr;
+lv_obj_t *ui_BSLogo = nullptr;
+lv_obj_t *ui_SelectUserLabel = nullptr;
+lv_obj_t *ui_ConfirmUserButton = nullptr;
+lv_obj_t *ui_UserDisplayLabel = nullptr;
+lv_obj_t *ui_ConfirmLabel1 = nullptr;
 
 // event funtions
 void ui_event_user_dropdown(lv_event_t *e)
@@ -36,17 +36,17 @@ void ui_event_ConfirmUserButton(lv_event_t *e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
-    if (event_code == LV_EVENT_CLICKED)
-    {
-        _ui_screen_change(&ui_Screen2, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Screen2_screen_init);
-    }
+    // if (event_code == LV_EVENT_CLICKED)
+    // {
+    //     _ui_screen_change(&ui_Screen2, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Screen2_screen_init);
+    // }
 }
 
 // build funtions
 
 void ui_UserSelection_screen_init(void)
 {
-    ui_UserSelectionScreen = lv_obj_create(NULL);
+    ui_UserSelectionScreen = lv_obj_create(nullptr);
     lv_obj_remove_flag(ui_UserSelectionScreen, LV_OBJ_FLAG_SCROLLABLE); /// Flags
     lv_obj_set_style_bg_color(ui_UserSelectionScreen, lv_color_hex(0xEE7B01), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_UserSelectionScreen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -124,13 +124,15 @@ void ui_UserSelection_screen_init(void)
     lv_label_set_text(ui_ConfirmLabel1, "Confirm");
     lv_obj_set_style_text_font(ui_ConfirmLabel1, &lv_font_montserrat_40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_Dropdown1, ui_event_user_dropdown, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_ConfirmUserButton, ui_event_ConfirmUserButton, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_Dropdown1, ui_event_user_dropdown, LV_EVENT_ALL, nullptr);
+    lv_obj_add_event_cb(ui_ConfirmUserButton, ui_event_ConfirmUserButton, LV_EVENT_ALL, nullptr);
     uic_BSLogo = ui_BSLogo;
     uic_SelectUserLabel = ui_SelectUserLabel;
     uic_ConfirmUserButton = ui_ConfirmUserButton;
     uic_UserDisplayLabel = ui_UserDisplayLabel;
     uic_ConfirmLabel1 = ui_ConfirmLabel1;
+
+    lv_scr_load(ui_UserSelectionScreen);
 }
 
 void ui_UserSelection_screen_destroy(void)
@@ -138,17 +140,17 @@ void ui_UserSelection_screen_destroy(void)
     if (ui_UserSelectionScreen)
         lv_obj_del(ui_UserSelectionScreen);
 
-    // NULL screen variables
-    ui_UserSelectionScreen = NULL;
-    ui_Dropdown1 = NULL;
-    uic_BSLogo = NULL;
-    ui_BSLogo = NULL;
-    uic_SelectUserLabel = NULL;
-    ui_SelectUserLabel = NULL;
-    uic_ConfirmUserButton = NULL;
-    ui_ConfirmUserButton = NULL;
-    uic_UserDisplayLabel = NULL;
-    ui_UserDisplayLabel = NULL;
-    uic_ConfirmLabel1 = NULL;
-    ui_ConfirmLabel1 = NULL;
+    // nullptr screen variables
+    ui_UserSelectionScreen = nullptr;
+    ui_Dropdown1 = nullptr;
+    uic_BSLogo = nullptr;
+    ui_BSLogo = nullptr;
+    uic_SelectUserLabel = nullptr;
+    ui_SelectUserLabel = nullptr;
+    uic_ConfirmUserButton = nullptr;
+    ui_ConfirmUserButton = nullptr;
+    uic_UserDisplayLabel = nullptr;
+    ui_UserDisplayLabel = nullptr;
+    uic_ConfirmLabel1 = nullptr;
+    ui_ConfirmLabel1 = nullptr;
 }

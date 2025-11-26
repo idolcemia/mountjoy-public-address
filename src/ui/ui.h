@@ -7,19 +7,20 @@
 #define _BS_KETTLE_FILL_UI_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #if defined __has_include
-  #if __has_include("lvgl.h")
-    #include "lvgl.h"
-  #elif __has_include("lvgl/lvgl.h")
-    #include "lvgl/lvgl.h"
-  #else
-    #include "lvgl.h"
-  #endif
+#if __has_include("lvgl.h")
+#include "lvgl.h"
+#elif __has_include("lvgl/lvgl.h")
+#include "lvgl/lvgl.h"
 #else
-  #include "lvgl.h"
+#include "lvgl.h"
+#endif
+#else
+#include "lvgl.h"
 #endif
 
 #include "ui_helpers.h"
@@ -30,17 +31,17 @@ extern "C" {
 #include "screens/ui_WiFiConnect.h"
 #include "ui_Screen2.h"
 
-///////////////////// VARIABLES ////////////////////
+    ///////////////////// VARIABLES ////////////////////
 
-// EVENTS
-extern lv_obj_t *ui____initial_actions0;
+    // EVENTS
+    extern lv_obj_t *ui____initial_actions0;
 
-// IMAGES AND IMAGE SETS
-LV_IMG_DECLARE( ui_img_buildshift_brand_png);   // assets/buildshift_brand.png
+    // IMAGES AND IMAGE SETS
+    LV_IMG_DECLARE(ui_img_buildshift_brand_png); // assets/buildshift_brand.png
 
-// UI INIT
-void ui_init(void);
-void ui_destroy(void);
+    // UI INIT
+    void ui_init(void);
+    void ui_destroy(void);
 
 #ifdef __cplusplus
 } /*extern "C"*/

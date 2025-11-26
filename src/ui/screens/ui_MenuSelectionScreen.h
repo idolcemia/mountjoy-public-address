@@ -22,6 +22,7 @@ extern "C"
 
     // Initialize the screen and all child elements
     void ui_MenuSelection_screen_init();
+    void ui_MenuSelection_screen_start();
 
     // Destroy the screen and reset pointers
     void ui_MenuSelection_screen_destroy();
