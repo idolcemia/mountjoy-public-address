@@ -46,93 +46,98 @@ void ui_event_ConfirmUserButton(lv_event_t *e)
 
 void ui_UserSelection_screen_init(void)
 {
-    ui_UserSelectionScreen = lv_obj_create(nullptr);
-    lv_obj_remove_flag(ui_UserSelectionScreen, LV_OBJ_FLAG_SCROLLABLE); /// Flags
-    lv_obj_set_style_bg_color(ui_UserSelectionScreen, lv_color_hex(0xEE7B01), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_UserSelectionScreen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_color(ui_UserSelectionScreen, lv_color_hex(0x2E1A05), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui_UserSelectionScreen, LV_GRAD_DIR_VER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    try
+    {
+        logger.info("[UI] Initializing User Selection screen");
 
-    ui_Dropdown1 = lv_dropdown_create(ui_UserSelectionScreen);
-    // lv_dropdown_set_options(ui_Dropdown1, "Option 1\nOption 2\nOption 3");
-    lv_dropdown_set_options(ui_Dropdown1, users->getUsersDelimit("\n").c_str());
-    lv_obj_set_width(ui_Dropdown1, 314);
-    lv_obj_set_height(ui_Dropdown1, LV_SIZE_CONTENT); /// 1
-    lv_obj_set_x(ui_Dropdown1, -167);
-    lv_obj_set_y(ui_Dropdown1, 134);
-    lv_obj_set_align(ui_Dropdown1, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Dropdown1, LV_OBJ_FLAG_SCROLL_ON_FOCUS); /// Flags
-    lv_obj_set_style_bg_color(ui_Dropdown1, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Dropdown1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        ui_UserSelectionScreen = lv_obj_create(nullptr);
+        if (!ui_UserSelectionScreen)
+        {
+            logger.error("[UI] Failed to create UserSelectionScreen");
+            return;
+        }
 
-    ui_BSLogo = lv_image_create(ui_UserSelectionScreen);
-    lv_image_set_src(ui_BSLogo, &ui_img_buildshift_brand_png);
-    lv_obj_set_width(ui_BSLogo, LV_SIZE_CONTENT);  /// 1
-    lv_obj_set_height(ui_BSLogo, LV_SIZE_CONTENT); /// 1
-    lv_obj_set_x(ui_BSLogo, 11);
-    lv_obj_set_y(ui_BSLogo, -157);
-    lv_obj_set_align(ui_BSLogo, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_BSLogo, LV_OBJ_FLAG_CLICKABLE);     /// Flags
-    lv_obj_remove_flag(ui_BSLogo, LV_OBJ_FLAG_SCROLLABLE); /// Flags
+        lv_obj_remove_flag(ui_UserSelectionScreen, LV_OBJ_FLAG_SCROLLABLE);
+        lv_obj_set_style_bg_color(ui_UserSelectionScreen, lv_color_hex(0xEE7B01),
+                                  LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_SelectUserLabel = lv_label_create(ui_UserSelectionScreen);
-    lv_obj_set_width(ui_SelectUserLabel, LV_SIZE_CONTENT);  /// 1
-    lv_obj_set_height(ui_SelectUserLabel, LV_SIZE_CONTENT); /// 1
-    lv_obj_set_x(ui_SelectUserLabel, -9);
-    lv_obj_set_y(ui_SelectUserLabel, -45);
-    lv_obj_set_align(ui_SelectUserLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_SelectUserLabel, "Select User Menu");
-    lv_obj_set_style_text_color(ui_SelectUserLabel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_SelectUserLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_SelectUserLabel, &lv_font_montserrat_48, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui_SelectUserLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_SelectUserLabel, lv_color_hex(0x956207), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_SelectUserLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_color(ui_SelectUserLabel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui_SelectUserLabel, LV_GRAD_DIR_VER, LV_PART_MAIN | LV_STATE_DEFAULT);
+        // --- Dropdown ---
+        if (!users)
+        {
+            logger.error("[UI] 'users' pointer is nullptr, cannot populate dropdown!");
+        }
 
-    ui_ConfirmUserButton = lv_button_create(ui_UserSelectionScreen);
-    lv_obj_set_width(ui_ConfirmUserButton, 266);
-    lv_obj_set_height(ui_ConfirmUserButton, 50);
-    lv_obj_set_x(ui_ConfirmUserButton, 197);
-    lv_obj_set_y(ui_ConfirmUserButton, 134);
-    lv_obj_set_align(ui_ConfirmUserButton, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_ConfirmUserButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS); /// Flags
-    lv_obj_remove_flag(ui_ConfirmUserButton, LV_OBJ_FLAG_SCROLLABLE);   /// Flags
-    lv_obj_set_style_bg_color(ui_ConfirmUserButton, lv_color_hex(0xF0A31E), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_ConfirmUserButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui_ConfirmUserButton, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_ConfirmUserButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        ui_Dropdown1 = lv_dropdown_create(ui_UserSelectionScreen);
+        if (ui_Dropdown1)
+        {
+            const String userListStd =
+                users
+                    ? users->getUsersDelimit("\n")
+                    : "NONE";
 
-    ui_UserDisplayLabel = lv_label_create(ui_UserSelectionScreen);
-    lv_obj_set_width(ui_UserDisplayLabel, LV_SIZE_CONTENT);  /// 1
-    lv_obj_set_height(ui_UserDisplayLabel, LV_SIZE_CONTENT); /// 1
-    lv_obj_set_x(ui_UserDisplayLabel, -12);
-    lv_obj_set_y(ui_UserDisplayLabel, 26);
-    lv_obj_set_align(ui_UserDisplayLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_UserDisplayLabel, "Make a selection");
-    lv_obj_set_style_text_color(ui_UserDisplayLabel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_UserDisplayLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_UserDisplayLabel, &lv_font_montserrat_40, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_dropdown_set_options(ui_Dropdown1, userListStd.c_str());
 
-    ui_ConfirmLabel1 = lv_label_create(ui_UserSelectionScreen);
-    lv_obj_set_width(ui_ConfirmLabel1, LV_SIZE_CONTENT);  /// 1
-    lv_obj_set_height(ui_ConfirmLabel1, LV_SIZE_CONTENT); /// 1
-    lv_obj_set_x(ui_ConfirmLabel1, 196);
-    lv_obj_set_y(ui_ConfirmLabel1, 135);
-    lv_obj_set_align(ui_ConfirmLabel1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_ConfirmLabel1, "Confirm");
-    lv_obj_set_style_text_font(ui_ConfirmLabel1, &lv_font_montserrat_40, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_width(ui_Dropdown1, 314);
+            lv_obj_set_height(ui_Dropdown1, LV_SIZE_CONTENT);
+            lv_obj_set_x(ui_Dropdown1, -167);
+            lv_obj_set_y(ui_Dropdown1, 134);
+            lv_obj_set_align(ui_Dropdown1, LV_ALIGN_CENTER);
+            lv_obj_add_flag(ui_Dropdown1, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_set_style_bg_color(ui_Dropdown1, lv_color_hex(0xFFFFFF),
+                                      LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        else
+        {
+            logger.error("[UI] Failed to create Dropdown1");
+        }
 
-    lv_obj_add_event_cb(ui_Dropdown1, ui_event_user_dropdown, LV_EVENT_ALL, nullptr);
-    lv_obj_add_event_cb(ui_ConfirmUserButton, ui_event_ConfirmUserButton, LV_EVENT_ALL, nullptr);
-    uic_BSLogo = ui_BSLogo;
-    uic_SelectUserLabel = ui_SelectUserLabel;
-    uic_ConfirmUserButton = ui_ConfirmUserButton;
-    uic_UserDisplayLabel = ui_UserDisplayLabel;
-    uic_ConfirmLabel1 = ui_ConfirmLabel1;
+        // --- Logo ---
+        ui_BSLogo = lv_image_create(ui_UserSelectionScreen);
+        if (ui_BSLogo)
+            lv_image_set_src(ui_BSLogo, &ui_img_buildshift_brand_png);
 
-    lv_scr_load(ui_UserSelectionScreen);
+        // --- Labels ---
+        ui_SelectUserLabel = lv_label_create(ui_UserSelectionScreen);
+        if (ui_SelectUserLabel)
+            lv_label_set_text(ui_SelectUserLabel, "Select User Menu");
+
+        ui_UserDisplayLabel = lv_label_create(ui_UserSelectionScreen);
+        if (ui_UserDisplayLabel)
+            lv_label_set_text(ui_UserDisplayLabel, "Make a selection");
+
+        ui_ConfirmLabel1 = lv_label_create(ui_UserSelectionScreen);
+        if (ui_ConfirmLabel1)
+            lv_label_set_text(ui_ConfirmLabel1, "Confirm");
+
+        // --- Button ---
+        ui_ConfirmUserButton = lv_button_create(ui_UserSelectionScreen);
+
+        // --- Event callbacks ---
+        if (ui_Dropdown1)
+            lv_obj_add_event_cb(ui_Dropdown1, ui_event_user_dropdown, LV_EVENT_ALL, nullptr);
+        if (ui_ConfirmUserButton)
+            lv_obj_add_event_cb(ui_ConfirmUserButton, ui_event_ConfirmUserButton, LV_EVENT_ALL, nullptr);
+
+        // --- Global access pointers ---
+        uic_BSLogo = ui_BSLogo;
+        uic_SelectUserLabel = ui_SelectUserLabel;
+        uic_ConfirmUserButton = ui_ConfirmUserButton;
+        uic_UserDisplayLabel = ui_UserDisplayLabel;
+        uic_ConfirmLabel1 = ui_ConfirmLabel1;
+
+        // --- Load the screen ---
+        lv_scr_load(ui_UserSelectionScreen);
+
+        logger.info("[UI] User Selection screen initialized successfully");
+    }
+    catch (const std::exception &ex)
+    {
+        logger.error(String("[UI] Exception in UserSelection init: ") + ex.what());
+    }
+    catch (...)
+    {
+        logger.error("[UI] Unknown exception in UserSelection init");
+    }
 }
 
 void ui_UserSelection_screen_destroy(void)
