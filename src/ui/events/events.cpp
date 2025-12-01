@@ -63,6 +63,11 @@ void handleUserDropdownEvent(lv_event_t *e)
     lv_obj_invalidate(ui_UserDisplayLabel);
 }
 
+void handleConfirmUserButton(lv_event_t *e)
+{
+    logger.info("in handleConfirmUserButton");
+}
+
 void handleConnectWiFiButton(lv_event_t *e)
 {
 
