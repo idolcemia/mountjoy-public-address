@@ -9,6 +9,7 @@ const int port = 8000;
 // Global objects
 RumpshiftLogger logger(BAUD_RATE, DEBUG_LEVEL, true);
 Users *users = nullptr;
+Users::User currentUser;
 NetworkManager *network =
     new WiFiNetworkManager(
         ssid,
@@ -55,12 +56,20 @@ void _getUsers()
     const char *url =
         "/notion-api/integrations/notion/consoleIntegration/users?include=name,id&excludeNames=Mountjoy+Sparkling,Ritual+Coffee+Roasters,n2y+integration,Console,Product+Management";
 
-    // HttpResponse resp = testClient.http().get(host, port, url);
-    // HttpResponse resp = wifiClient.http().get(host, port, url);
-    // logger.info("[RESPONSE - BODY] " + resp.body());
-
     HttpResponse resp = users->fetch(host, port, url);
     logger.info("[RESPONSE - BODY] " + resp.body());
     users->parse(resp.body());
     users->printUsers();
+}
+
+void _setCurrentUser(String name)
+{
+    if (users->getUserByName(name, currentUser))
+    {
+        logger.info("Current user set to: '" + currentUser.getName() + "'.");
+    }
+    else
+    {
+        logger.error("Unable to set current user set to: '" + name + "'.");
+    }
 }

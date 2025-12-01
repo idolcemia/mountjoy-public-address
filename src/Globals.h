@@ -24,6 +24,7 @@ extern const int port;
 // Global objects
 extern RumpshiftLogger logger;
 extern Users *users;
+extern Users::User currentUser;
 extern NetworkManager *network;
 extern WiFiClientWrapper *wifiClient;
 extern MenuManager menuManager;
@@ -42,5 +43,6 @@ void initMenus();
 void initUsers();
 void initWiFiClient();
 void _getUsers();
+void _setCurrentUser(String name);
 
 #endif

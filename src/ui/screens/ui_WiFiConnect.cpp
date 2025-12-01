@@ -129,6 +129,7 @@ void ui_WiFiConnect_screen_init(void)
     uic_WiFiStatusLabel = ui_WiFiStatusLabel;
 
     ui_GlobalLabels::initNetworkStatus(ui_WiFiConnectScreen);
+    ui_GlobalLabels::initUserSelectionLabel(ui_WiFiConnectScreen);
 
     // Load this screen
     lv_scr_load(ui_WiFiConnectScreen);

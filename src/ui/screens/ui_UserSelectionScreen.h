@@ -16,7 +16,7 @@ extern "C"
     extern void ui_UserSelection_screen_destroy(void);
     extern lv_obj_t *ui_UserSelectionScreen;
     extern void ui_event_user_dropdown(lv_event_t *e);
-    extern lv_obj_t *ui_Dropdown1;
+    extern lv_obj_t *ui_UserDropdown;
     extern lv_obj_t *ui_BSLogo;
     extern lv_obj_t *ui_SelectUserLabel;
     extern void ui_event_ConfirmUserButton(lv_event_t *e);

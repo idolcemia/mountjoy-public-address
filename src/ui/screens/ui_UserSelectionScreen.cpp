@@ -9,11 +9,11 @@ lv_obj_t *uic_UserDisplayLabel;
 lv_obj_t *uic_SelectUserLabel;
 lv_obj_t *uic_ConfirmUserButton;
 lv_obj_t *uic_ConfirmLabel1;
-lv_obj_t* uic_NetworkWarningLabel;
+lv_obj_t *uic_NetworkWarningLabel;
 lv_obj_t *uic_BSLogo;
 
 lv_obj_t *ui_UserSelectionScreen = nullptr;
-lv_obj_t *ui_Dropdown1 = nullptr;
+lv_obj_t *ui_UserDropdown = nullptr;
 lv_obj_t *ui_UserDisplayLabel = nullptr;
 lv_obj_t *ui_SelectUserLabel = nullptr;
 lv_obj_t *ui_ConfirmUserButton = nullptr;
@@ -99,30 +99,38 @@ void ui_UserSelection_screen_init(void)
     /* -------------------------------------------------------
      *  User Dropdown
      * -----------------------------------------------------*/
-    ui_Dropdown1 = lv_dropdown_create(ui_UserSelectionScreen);
+    ui_UserDropdown = lv_dropdown_create(ui_UserSelectionScreen);
 
     if (!connected)
     {
-        lv_obj_add_state(ui_Dropdown1, LV_STATE_DISABLED);
+        lv_obj_add_state(ui_UserDropdown, LV_STATE_DISABLED);
 
-        lv_obj_set_style_bg_color(ui_Dropdown1, lv_color_hex(0xBBBBBB), LV_PART_MAIN);
-        lv_obj_set_style_text_color(ui_Dropdown1, lv_color_hex(0x777777), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(ui_UserDropdown, lv_color_hex(0xBBBBBB), LV_PART_MAIN);
+        lv_obj_set_style_text_color(ui_UserDropdown, lv_color_hex(0x777777), LV_PART_MAIN);
 
-        lv_dropdown_set_options(ui_Dropdown1, "No network");
+        lv_dropdown_set_options(ui_UserDropdown, "No network");
     }
     else
     {
-        _getUsers();
+        if (users && users->getUserCount() > 0)
+        {
+            logger.info("Skipping fetch for users.");
+        }
+        else
+        {
+            logger.info("Fetching users.");
+            _getUsers();
+        }
         String list = users ? users->getUsersDelimit("\n") : "No users";
-        lv_dropdown_set_options(ui_Dropdown1, list.c_str());
+        lv_dropdown_set_options(ui_UserDropdown, list.c_str());
 
-        lv_obj_set_style_bg_color(ui_Dropdown1, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
-        lv_obj_set_style_text_color(ui_Dropdown1, lv_color_hex(0x000000), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(ui_UserDropdown, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+        lv_obj_set_style_text_color(ui_UserDropdown, lv_color_hex(0x000000), LV_PART_MAIN);
     }
 
-    lv_obj_set_width(ui_Dropdown1, 314);
-    lv_obj_set_height(ui_Dropdown1, LV_SIZE_CONTENT);
-    lv_obj_align(ui_Dropdown1, LV_ALIGN_CENTER, 0, 50);
+    lv_obj_set_width(ui_UserDropdown, 314);
+    lv_obj_set_height(ui_UserDropdown, LV_SIZE_CONTENT);
+    lv_obj_align(ui_UserDropdown, LV_ALIGN_CENTER, 0, 50);
 
     /* -------------------------------------------------------
      *  Selected User Label
@@ -133,7 +141,7 @@ void ui_UserSelection_screen_init(void)
     lv_obj_set_style_text_color(ui_UserDisplayLabel, lv_color_hex(0x000000), LV_PART_MAIN);
     lv_obj_set_style_text_font(ui_UserDisplayLabel, &lv_font_montserrat_40, LV_PART_MAIN);
 
-    lv_obj_align_to(ui_UserDisplayLabel, ui_Dropdown1, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
+    lv_obj_align_to(ui_UserDisplayLabel, ui_UserDropdown, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
 
     /* -------------------------------------------------------
      *  Confirm Button
@@ -153,7 +161,7 @@ void ui_UserSelection_screen_init(void)
     /* -------------------------------------------------------
      *  Events
      * -----------------------------------------------------*/
-    lv_obj_add_event_cb(ui_Dropdown1, ui_event_user_dropdown, LV_EVENT_ALL, nullptr);
+    lv_obj_add_event_cb(ui_UserDropdown, ui_event_user_dropdown, LV_EVENT_ALL, nullptr);
     lv_obj_add_event_cb(ui_ConfirmUserButton, ui_event_ConfirmUserButton, LV_EVENT_ALL, nullptr);
 
     /* -------------------------------------------------------
@@ -169,6 +177,7 @@ void ui_UserSelection_screen_init(void)
      *  Network status label
      * -----------------------------------------------------*/
     ui_GlobalLabels::initNetworkStatus(ui_UserSelectionScreen);
+    ui_GlobalLabels::initUserSelectionLabel(ui_UserSelectionScreen);
 
     /* -------------------------------------------------------
      *  Show Screen
@@ -187,7 +196,7 @@ void ui_UserSelection_screen_destroy(void)
         lv_obj_clean(ui_UserSelectionScreen);
 
     ui_UserSelectionScreen = nullptr;
-    ui_Dropdown1 = nullptr;
+    ui_UserDropdown = nullptr;
     ui_UserDisplayLabel = nullptr;
     ui_SelectUserLabel = nullptr;
     ui_ConfirmUserButton = nullptr;

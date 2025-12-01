@@ -3,6 +3,7 @@
 #include "ui/ui.h"
 #include "ui/events/events.h"
 #include "ui/screens/ui_GlobalButtons.h"
+#include "ui/screens/labels/ui_GlobalLabels.h"
 
 lv_obj_t *ui_MenuSelectionScreen = nullptr;
 lv_obj_t *ui_MenuDropdown = nullptr;
@@ -119,6 +120,7 @@ void ui_MenuSelection_screen_init()
     lv_obj_align(ui_MenuLogo, LV_ALIGN_TOP_MID, 0, 10);
 
     ui_GlobalButtons::initGlobalButtons();
+    ui_GlobalLabels::initUserSelectionLabel(ui_MenuSelectionScreen);
 
     // Load the screen
     lv_scr_load(ui_MenuSelectionScreen);
