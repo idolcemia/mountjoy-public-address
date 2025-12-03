@@ -152,7 +152,7 @@ void ui_MenuSelectionScreenUpdate()
     }
 
     // --- 3. Update network status label ---
-    ui_GlobalLabels::initNetworkStatus(ui_MenuSelectionScreen);
+    ui_GlobalLabels::updateNetworkStatus(ui_MenuSelectionScreen);
     ui_GlobalButtons::updateGlobalButtons(ui_MenuSelectionScreen);
 
     // --- 4. Reattach global buttons (if needed after Full Screen reload) ---

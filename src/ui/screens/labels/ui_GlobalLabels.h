@@ -15,14 +15,17 @@ namespace ui_GlobalLabels
     extern uint32_t lastNetworkCheck;
 
     // Initialize network status label and optionally assign NetworkManager
-    void initNetworkStatus(lv_obj_t *parent);
+    void initNetworkStatus(lv_obj_t *parent = nullptr);
     // Update network label text
-    void updateNetworkStatus();
+    void updateNetworkStatus(lv_obj_t *parent = nullptr);
 
-    void initUserSelectionLabel(lv_obj_t *parent);
-    void updateUserSelectionLabel();
+    void initUserSelectionLabel(lv_obj_t *parent = nullptr);
+    void updateUserSelectionLabel(lv_obj_t *parent = nullptr);
 
-    void networkChecked();
+    inline void networkChecked()
+    {
+        lastNetworkCheck = millis();
+    }
 
 }
 
