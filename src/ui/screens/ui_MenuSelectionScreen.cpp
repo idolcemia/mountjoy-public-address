@@ -43,7 +43,7 @@ void ui_MenuSelection_screen_start()
 {
     menuManager.queueMenu(PasteurizerMenu::MENU_MENU_SELECTION);
     lv_timer_handler();
-    menuManager.setCachedScreen(PasteurizerMenu::MENU_MENU_SELECTION, ui_MenuSelectionScreen);
+    // menuManager.setCachedScreen(PasteurizerMenu::MENU_MENU_SELECTION, ui_MenuSelectionScreen);
 }
 
 // Initialize the screen
@@ -89,13 +89,6 @@ void ui_MenuSelection_screen_init()
     lv_label_set_text(lblConfirm, "Confirm");
     lv_obj_center(lblConfirm);
 
-    // --- Network status label (bottom-left) ---
-    // ui_NetworkStatusLabel = lv_label_create(ui_MenuSelectionScreen);
-    // lv_label_set_text(ui_NetworkStatusLabel, "Network: Checking...");
-    // lv_obj_set_style_text_font(ui_NetworkStatusLabel, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
-    // lv_obj_align(ui_NetworkStatusLabel, LV_ALIGN_BOTTOM_LEFT, 10, -10);
-    ui_GlobalLabels::initNetworkStatus(ui_MenuSelectionScreen);
-
     // --- Optional Logo (top-left) ---
     ui_MenuLogo = lv_image_create(ui_MenuSelectionScreen);
     lv_image_set_src(ui_MenuLogo, &ui_img_buildshift_brand_png);
@@ -104,6 +97,7 @@ void ui_MenuSelection_screen_init()
 
     ui_GlobalButtons::initGlobalButtons(ui_MenuSelectionScreen);
     ui_GlobalLabels::initUserSelectionLabel(ui_MenuSelectionScreen);
+    ui_GlobalLabels::initNetworkStatus(ui_MenuSelectionScreen);
 
     lv_scr_load(ui_MenuSelectionScreen);
     menuManager.setCachedScreen(PasteurizerMenu::MENU_MENU_SELECTION, ui_MenuSelectionScreen);
@@ -153,6 +147,7 @@ void ui_MenuSelectionScreenUpdate()
 
     // --- 3. Update network status label ---
     ui_GlobalLabels::updateNetworkStatus(ui_MenuSelectionScreen);
+    ui_GlobalLabels::updateUserSelectionLabel(ui_MenuSelectionScreen);
     ui_GlobalButtons::updateGlobalButtons(ui_MenuSelectionScreen);
 
     // --- 4. Reattach global buttons (if needed after Full Screen reload) ---

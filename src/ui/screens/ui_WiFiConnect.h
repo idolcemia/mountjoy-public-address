@@ -22,6 +22,9 @@ extern "C"
     extern lv_obj_t *ui_ConnectWiFiButton;
     extern void ui_event_ConnectWiFiButton(lv_event_t *e);
 
+    // Helpers
+    // static void _performWiFiScan();
+
     // Labels for SSID selection and status messages
     extern lv_obj_t *ui_SelectSSIDLabel;
     extern lv_obj_t *ui_WiFiStatusLabel;

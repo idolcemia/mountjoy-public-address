@@ -155,16 +155,23 @@ void ui_DebugLogScreenUpdate()
 // Logger callback for real-time updates
 static void _attachDebugLogCallback()
 {
-    logger.setCallback(
-        [](const String &line)
-        {
-            if (!ui_LogLabel)
-                return;
+    logger.setCallback([](const String &line)
+                       {
+    if (!ui_LogLabel) return;
 
-            static String buffer;
-            buffer += line + "\n";
+    lv_label_set_text(ui_LogLabel, logger.getLogText().c_str());
+    lv_obj_scroll_to_y(ui_LogContainer, LV_COORD_MAX, LV_ANIM_OFF); });
 
-            lv_label_set_text(ui_LogLabel, buffer.c_str());
-            lv_obj_scroll_to_y(ui_LogContainer, LV_COORD_MAX, LV_ANIM_OFF);
-        });
+    // logger.setCallback(
+    //     [](const String &line)
+    //     {
+    //         if (!ui_LogLabel)
+    //             return;
+
+    //         static String buffer;
+    //         buffer += line + "\n";
+
+    //         lv_label_set_text(ui_LogLabel, buffer.c_str());
+    //         lv_obj_scroll_to_y(ui_LogContainer, LV_COORD_MAX, LV_ANIM_OFF);
+    //     });
 }

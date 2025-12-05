@@ -492,13 +492,11 @@ void ui_TempControl_screen_init(void)
         lv_obj_add_flag(keyboard, LV_OBJ_FLAG_HIDDEN);
     } }, LV_EVENT_ALL, nullptr);
 
-    // Global labels (if needed)
-    ui_GlobalLabels::initNetworkStatus(ui_TempControlScreen);
-    ui_GlobalLabels::initUserSelectionLabel(ui_TempControlScreen);
-
     // Load screen
     lv_scr_load(ui_TempControlScreen);
     ui_GlobalButtons::updateGlobalButtons(ui_TempControlScreen);
+    ui_GlobalLabels::updateNetworkStatus(ui_TempControlScreen);
+    ui_GlobalLabels::updateUserSelectionLabel(ui_TempControlScreen);
     menuManager.setCachedScreen(PasteurizerMenu::MENU_TEMP_CONTROL, ui_TempControlScreen);
 }
 
@@ -574,5 +572,7 @@ void ui_TempControlScreenUpdate()
         lv_label_set_text(ui_SettingsStatusLabel, "");
 
     ui_GlobalButtons::updateGlobalButtons(ui_TempControlScreen);
+    ui_GlobalLabels::updateNetworkStatus(ui_TempControlScreen);
+    ui_GlobalLabels::updateUserSelectionLabel(ui_TempControlScreen);
     menuManager.setCachedScreen(PasteurizerMenu::MENU_TEMP_CONTROL, ui_TempControlScreen);
 }

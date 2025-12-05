@@ -68,15 +68,15 @@ void handleUserDropdownEvent(lv_event_t *e)
 
 void handleConfirmUserButton(lv_event_t *e)
 {
-    logger.info("Confirm user button pressed.");
+    logger.info("[events] Confirm user button pressed.");
 
     char buf[64];
     lv_dropdown_get_selected_str(ui_UserDropdown, buf, sizeof(buf));
     String selectedText = String(buf);
-    logger.info("Dropdown selected text: " + selectedText);
+    logger.info("[events] Dropdown selected text: " + selectedText);
 
     _setCurrentUser(selectedText);
-    ui_GlobalLabels::updateUserSelectionLabel();
+    ui_GlobalLabels::updateUserSelectionLabel(ui_UserSelectionScreen);
 }
 
 void handleConnectWiFiButton(lv_event_t *e)

@@ -177,14 +177,16 @@ void ui_UserSelection_screen_init(void)
     /* -------------------------------------------------------
      *  Network status label
      * -----------------------------------------------------*/
-    ui_GlobalLabels::initNetworkStatus(ui_UserSelectionScreen);
-    ui_GlobalLabels::initUserSelectionLabel(ui_UserSelectionScreen);
+    // ui_GlobalLabels::initNetworkStatus(ui_UserSelectionScreen);
+    // ui_GlobalLabels::initUserSelectionLabel(ui_UserSelectionScreen);
 
     /* -------------------------------------------------------
      *  Show Screen
      * -----------------------------------------------------*/
     lv_scr_load(ui_UserSelectionScreen);
     ui_GlobalButtons::updateGlobalButtons(ui_UserSelectionScreen);
+    ui_GlobalLabels::updateNetworkStatus(ui_UserSelectionScreen);
+    ui_GlobalLabels::updateUserSelectionLabel(ui_UserSelectionScreen);
 
     logger.info("[UI] User Selection screen loaded successfully");
 
@@ -285,8 +287,8 @@ void ui_UserSelectionScreenUpdate()
     /* -------------------------------------------------------
      *  Update global labels (network + user)
      * -----------------------------------------------------*/
-    ui_GlobalLabels::updateNetworkStatus();
-    ui_GlobalLabels::updateUserSelectionLabel();
+    ui_GlobalLabels::updateNetworkStatus(ui_UserSelectionScreen);
+    ui_GlobalLabels::updateUserSelectionLabel(ui_UserSelectionScreen);
 
     logger.info("[UI] User Selection screen updated");
 }
