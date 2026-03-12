@@ -30,13 +30,21 @@
 #include "Globals.h"
 #include "ui/screens/labels/ui_GlobalLabels.h"
 
+#include "FillControl.h"
+#include "PressureControl.h"
+
+                                 
+
 Arduino_H7_Video Display(800, 480, GigaDisplayShield);
 Arduino_GigaDisplayTouch TouchDetector;
 
 WiFiClientWrapper testClient;
 
-unsigned long lastTempUpdate = 0;
-const unsigned long TEMP_UPDATE_INTERVAL = 1000;
+unsigned long lastSensorUpdate = 0;
+const unsigned long SENSOR_UPDATE_INTERVAL = 1000;
+
+
+
 
 void _log();
 
@@ -57,6 +65,8 @@ void setup()
     Display.begin();
     TouchDetector.begin();
     ui_init();
+
+    
 }
 
 void loop()
@@ -72,25 +82,58 @@ void loop()
     //     Diagnostic::updateDefault();
     // }
 
-    // Update temperature display periodically
+    // Update presdsure and flow periodically
     unsigned long currentMillis = millis();
-    if (currentMillis - lastTempUpdate >= TEMP_UPDATE_INTERVAL)
+    if (currentMillis - lastSensorUpdate >= SENSOR_UPDATE_INTERVAL)
     {
-        lastTempUpdate = currentMillis;
+        lastSensorUpdate = currentMillis;
 
-        // Read temperatures from sensors
-        float coreTemp = 0.0; // Replace with actual core sensor if you have one
-        float chamberTemp = chamberTemperatureSensor.getTempC();
 
-        // Handle invalid readings
-        if (isnan(chamberTemp))
+        logger.info("Fill Volume: " + String(fillControl.getFillVolume()) + " L ");
+
+    switch (fillControl._state)
         {
-            chamberTemp = -999.0; // Or handle however you prefer
+        default:
+        case FillControlState::FILL_RESET:
+            fillControl.reset();
+            break;
+        case FillControlState::FILL_RUN:
+            fillControl.getFillVolume(); // Get current volume, according to sensor.
+            if (fillControl.getFillVolume() >= fillControl._fillAmount) {
+                fillControl.reset();
+
+            }   
+            break;
+        case FillControlState::FILL_PAUSE:
+            fillControl.stop();
+            break;
+        case FillControlState::FILL_DONE:
+            fillControl.reset();
+            break;
         }
 
-        logger.info("[MAIN] Chamber temp: " + String(chamberTemp));
-        // Update the UI
-        ui_ManualControl_screen_update(coreTemp, chamberTemp);
+        switch (pressureControl._state)
+        {
+        default:
+        case PressureControlState::PC_RESET:
+            pressureControl.reset();
+            break;
+        case PressureControlState::PC_RUN:
+
+            if (pressureControl.overPressure()) {
+                pressureControl.reset();
+            }   
+            break;
+        case PressureControlState::PC_PAUSE:
+            pressureControl.stop();
+            break;
+        case PressureControlState::PC_DONE:
+            pressureControl.reset();
+            break;
+        }
+
+        pressureControl.updateUI();
+        fillControl.updateUI();
     }
 
     delay(5); // Small delay for stability

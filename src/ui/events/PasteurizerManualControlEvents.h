@@ -2,6 +2,14 @@
 
 #include "lvgl.h"
 
+
+
+
+// --- Heat Button Events ---
+void ui_event_buttonHeatEnabled(lv_event_t *e);
+void ui_event_buttonHeatDisabled(lv_event_t *e);
+// void ui_event_OperationButton(lv_event_t *e);
+
 // --- Operation Button Events ---
 void ui_event_OperationButtonEnabled(lv_event_t *e);
 void ui_event_OperationButtonDisabled(lv_event_t *e);

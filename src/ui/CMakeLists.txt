@@ -1,8 +1,11 @@
-SET(SOURCES ui_UserSelectionScreen.c
-    ui_Screen2.c
+SET(SOURCES ui_screenHome.c
+    ui_theme_manager.c
+    ui_themes.c
     ui.c
     ui_comp_hook.c
     ui_helpers.c
-    ui_img_buildshift_brand_png.c)
+    ui_events.c
+    ui_img_1324469499.c
+    ui_img_possum_png.c)
 
 add_library(ui ${SOURCES})

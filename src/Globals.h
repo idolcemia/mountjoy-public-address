@@ -9,6 +9,13 @@
 #include "config.h"
 #include "PasteurizerRelays.h"
 #include "TemperatureSensor.h"
+#include "GigaAudio.h"
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
+
+#include "FillControl.h"
+#include "PressureControl.h"
 
 // -- Menus --
 #include <MenuManager.h>
@@ -33,6 +40,10 @@ extern WiFiClientWrapper *wifiClient;
 extern MenuManager menuManager;
 extern PasteurizerRelays pasteurizerRelays;
 extern TemperatureSensor chamberTemperatureSensor;
+extern TemperatureSensor kettleTemperatureSensor;
+extern GigaAudio audio;
+extern FillControl fillControl;
+extern PressureControl pressureControl;
 
 namespace PasteurizerMenu
 {

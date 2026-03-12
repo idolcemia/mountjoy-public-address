@@ -78,10 +78,10 @@ void ui_UserSelection_screen_init(void)
     /* -------------------------------------------------------
      *  Logo
      * -----------------------------------------------------*/
-    ui_BSLogo = lv_image_create(ui_UserSelectionScreen);
-    lv_image_set_src(ui_BSLogo, &ui_img_buildshift_brand_png);
-    lv_obj_align(ui_BSLogo, LV_ALIGN_CENTER, 0, -157);
-
+    /* ui_BSLogo = lv_image_create(ui_UserSelectionScreen);
+     lv_image_set_src(ui_BSLogo, &ui_img_buildshift_brand_png);
+     lv_obj_align(ui_BSLogo, LV_ALIGN_CENTER, 0, -157);
+ */
     /* -------------------------------------------------------
      *  Title Label
      * -----------------------------------------------------*/

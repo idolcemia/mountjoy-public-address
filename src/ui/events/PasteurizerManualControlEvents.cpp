@@ -11,6 +11,56 @@ static void logButtonState(const char *name, bool state)
     logger.info("[PasteurizerManualControlEvents] " + String(name) + " button " + (state ? "enabled" : "disabled"));
 }
 
+void dropdownUserChanged(lv_event_t *e)
+{
+    // If user set, enable checkpoint switch
+
+    if (lv_dropdown_get_selected(ui_dropdownUser) > 0) // If a user is selected (index 0 is "Select User")
+    {
+        lv_obj_remove_state(ui_switchCheckPoint, LV_STATE_DISABLED); // Make checkpoint switch enabled
+    }
+}
+
+void switchPressurizeChanged(lv_event_t *e)
+{
+
+    if (lv_obj_has_state(ui_switchPressurize, LV_STATE_CHECKED))
+    {
+        // Pressurize switch is ON
+        pressureControl.start();
+    }
+    else
+    {
+        // Pressurize switch is OFF
+        pressureControl.reset();
+    }
+}
+
+void switchFillChanged(lv_event_t *e)
+{
+    if (lv_obj_has_state(ui_switchFill, LV_STATE_CHECKED))
+    {
+        fillControl.start();
+    }
+    else
+    {
+        fillControl.reset();
+    }
+}
+
+// Heat Button Events
+void ui_event_buttonHeatEnabled(lv_event_t *e)
+{
+    logButtonState("Heat", true);
+    pasteurizerRelays.activateOperationRelay();
+}
+
+void ui_event_buttonHeatDisabled(lv_event_t *e)
+{
+    logButtonState("Heat", false);
+    pasteurizerRelays.deactivateOperationRelay();
+}
+
 // Operation Button Events
 void ui_event_OperationButtonEnabled(lv_event_t *e)
 {

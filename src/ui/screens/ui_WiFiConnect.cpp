@@ -83,12 +83,12 @@ void ui_WiFiConnect_screen_init(void)
     lv_obj_set_style_bg_grad_color(ui_WiFiConnectScreen, lv_color_hex(0x2E1A05), LV_PART_MAIN);
     lv_obj_set_style_bg_grad_dir(ui_WiFiConnectScreen, LV_GRAD_DIR_VER, LV_PART_MAIN);
 
-    // Logo
+ /*   // Logo
     lv_obj_t *ui_BSLogo = lv_image_create(ui_WiFiConnectScreen);
     lv_image_set_src(ui_BSLogo, &ui_img_buildshift_brand_png);
     lv_obj_set_align(ui_BSLogo, LV_ALIGN_CENTER);
     lv_obj_set_y(ui_BSLogo, -157);
-
+*/
     // Title
     ui_SelectSSIDLabel = lv_label_create(ui_WiFiConnectScreen);
     lv_label_set_text(ui_SelectSSIDLabel, "Select WiFi Network");
