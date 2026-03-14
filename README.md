@@ -1,4 +1,4 @@
-# Mountjoy Kettle Fill / Temperature Control
+# Mountjoy Public Address
 # Giga R1 M7 + Giga Display Shield LVGL
 
 This project is a GUI applications on the **Arduino Giga R1 M7** with the **Giga Display Shield (800×480)** using **LVGL 9**, touch input, networking utilities, and additional custom modules.
