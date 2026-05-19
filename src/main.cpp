@@ -1,10 +1,5 @@
 /*
- * Mountjoy Kettle fill / Temp gauge using the following components:
- * Arduino Giga R1 M7
- * Giga Display Shield (800 x 480)
- * LvGL 9.x
- * 20251125 tested good.
- * Enhanced with WiFi debug, retries, RSSI, MAC, and encryption info
+ * Mountjoy Public Address / Broadcast System
  */
 
 #include <Arduino.h>
@@ -26,34 +21,51 @@
 #include <Users.h>
 #include <Diagnostic.h>
 
-#include "config.h"
+#include "../include/config.h"
 #include "Globals.h"
 #include "ui/screens/labels/ui_GlobalLabels.h"
 
-#include "FillControl.h"
-#include "PressureControl.h"
+#include "AudioMaster.h"
 
-                                 
+enum Station // Device addressing for different stations I2C communication.
+// Values should be set according to actual hardware design.
+{
+    STATION_BREWING = 0,
+    STATION_EXTRACTING = 9,
+    STATION_PASTEURIZING = 2,
+    STATION_CLEANING = 3
+};
 
 Arduino_H7_Video Display(800, 480, GigaDisplayShield);
 Arduino_GigaDisplayTouch TouchDetector;
 
 WiFiClientWrapper testClient;
 
-unsigned long lastSensorUpdate = 0;
-const unsigned long SENSOR_UPDATE_INTERVAL = 1000;
+// Loop control variables
+unsigned long lastAudioUpdate = 0;
+const unsigned long AUDIO_UPDATE_INTERVAL = 100;
+bool gAudioMasterReady = false;
 
-
-
+static void logStartupStage(const char *stage)
+{
+    logger.info(String("[STARTUP] ") + stage);
+    Serial.println(String("[STARTUP] ") + stage);
+}
 
 void _log();
 
 void setup()
 {
+    Serial.begin(115200);
+    delay(50);
+    Serial.println("[STARTUP] setup entered");
+
     logger.begin();
     logger.info("Starting log....");
+    logStartupStage("logger.begin complete");
 
     network->setRemote(server, port);
+    logStartupStage("network->setRemote complete");
     // network->begin();
     // network->printStatus();
 
@@ -61,79 +73,57 @@ void setup()
     // users = new Users(wifiClient, &logger);
 
     initGlobals();
+    logStartupStage("initGlobals complete");
     // testClient.begin(&logger);
-    Display.begin();
-    TouchDetector.begin();
-    ui_init();
 
-    
+    logger.info(String("Beginning display initialization..."));
+    Display.begin();
+    logStartupStage("Display.begin complete");
+    TouchDetector.begin();
+    logStartupStage("TouchDetector.begin complete");
+    ui_init();
+    logStartupStage("ui_init complete");
+
+    logStartupStage("audioMaster.begin start");
+    if (!audioMaster.begin())
+    {
+        logger.error(String("AudioMaster initialization failed: ") + audioMaster.getLastError());
+        Serial.println(String("[STARTUP] AudioMaster error: ") + audioMaster.getLastError());
+        Serial.println("[STARTUP] audioMaster.begin failed");
+        gAudioMasterReady = false;
+    }
+    else
+    {
+        gAudioMasterReady = true;
+        logStartupStage("audioMaster.begin complete");
+    }
 }
 
 void loop()
 {
     lv_timer_handler();
-    // ui_GlobalLabels::updateNetworkStatus();
-    // ui_GlobalLabels::networkChecked();
 
-    // Only update once LVGL is stable
-    // Maybe move this to particular screens
-    // if (millis() > 3000) // wait 3s after boot
-    // {
-    //     Diagnostic::updateDefault();
-    // }
-
-    // Update presdsure and flow periodically
     unsigned long currentMillis = millis();
-    if (currentMillis - lastSensorUpdate >= SENSOR_UPDATE_INTERVAL)
+
+    if (!gAudioMasterReady)
     {
-        lastSensorUpdate = currentMillis;
-
-
-        logger.info("Fill Volume: " + String(fillControl.getFillVolume()) + " L ");
-
-    switch (fillControl._state)
+        static bool loggedNotReady = false;
+        if (!loggedNotReady)
         {
-        default:
-        case FillControlState::FILL_RESET:
-            fillControl.reset();
-            break;
-        case FillControlState::FILL_RUN:
-            fillControl.getFillVolume(); // Get current volume, according to sensor.
-            if (fillControl.getFillVolume() >= fillControl._fillAmount) {
-                fillControl.reset();
-
-            }   
-            break;
-        case FillControlState::FILL_PAUSE:
-            fillControl.stop();
-            break;
-        case FillControlState::FILL_DONE:
-            fillControl.reset();
-            break;
+            logger.error("[AUDIO] update skipped: audio master not initialized.");
+            Serial.println("[AUDIO] update skipped: audio master not initialized.");
+            loggedNotReady = true;
         }
-
-        switch (pressureControl._state)
+    }
+    else
+    {
+        if (currentMillis - lastAudioUpdate >= AUDIO_UPDATE_INTERVAL)
         {
-        default:
-        case PressureControlState::PC_RESET:
-            pressureControl.reset();
-            break;
-        case PressureControlState::PC_RUN:
+            lastAudioUpdate = currentMillis;
 
-            if (pressureControl.overPressure()) {
-                pressureControl.reset();
-            }   
-            break;
-        case PressureControlState::PC_PAUSE:
-            pressureControl.stop();
-            break;
-        case PressureControlState::PC_DONE:
-            pressureControl.reset();
-            break;
+            // Process incoming and outgoing communication
+            audioMaster.update();
         }
-
-        pressureControl.updateUI();
-        fillControl.updateUI();
     }
 
     delay(5); // Small delay for stability

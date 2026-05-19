@@ -2,8 +2,7 @@
 
 #include "lvgl.h"
 
-
-
+#include "PasteurizerRelays.h"
 
 // --- Heat Button Events ---
 void ui_event_buttonHeatEnabled(lv_event_t *e);

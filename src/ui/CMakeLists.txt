@@ -5,7 +5,7 @@ SET(SOURCES ui_screenHome.c
     ui_comp_hook.c
     ui_helpers.c
     ui_events.c
-    ui_img_1324469499.c
-    ui_img_possum_png.c)
+    ui_img_94336299.c
+    ui_img_1324469499.c)
 
 add_library(ui ${SOURCES})

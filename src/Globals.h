@@ -6,7 +6,7 @@
 #include <NetworkManager.h>
 #include <WiFi/WiFiNetworkManager.h>
 #include "lvgl.h"
-#include "config.h"
+#include "../include/config.h"
 #include "PasteurizerRelays.h"
 #include "TemperatureSensor.h"
 #include "GigaAudio.h"
@@ -14,8 +14,7 @@
 #include <DallasTemperature.h>
 
 
-#include "FillControl.h"
-#include "PressureControl.h"
+#include "AudioMaster.h"
 
 // -- Menus --
 #include <MenuManager.h>
@@ -38,12 +37,10 @@ extern Users::User currentUser;
 extern NetworkManager *network;
 extern WiFiClientWrapper *wifiClient;
 extern MenuManager menuManager;
-extern PasteurizerRelays pasteurizerRelays;
-extern TemperatureSensor chamberTemperatureSensor;
-extern TemperatureSensor kettleTemperatureSensor;
-extern GigaAudio audio;
-extern FillControl fillControl;
-extern PressureControl pressureControl;
+//extern PasteurizerRelays pasteurizerRelays;
+
+
+extern AudioMaster audioMaster;
 
 namespace PasteurizerMenu
 {

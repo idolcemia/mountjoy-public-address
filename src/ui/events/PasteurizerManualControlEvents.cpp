@@ -17,100 +17,8 @@ void dropdownUserChanged(lv_event_t *e)
 
     if (lv_dropdown_get_selected(ui_dropdownUser) > 0) // If a user is selected (index 0 is "Select User")
     {
-        lv_obj_remove_state(ui_switchCheckPoint, LV_STATE_DISABLED); // Make checkpoint switch enabled
+        //       lv_obj_remove_state(ui_switchCheckPoint, LV_STATE_DISABLED); // Make checkpoint switch enabled
     }
-}
-
-void switchPressurizeChanged(lv_event_t *e)
-{
-
-    if (lv_obj_has_state(ui_switchPressurize, LV_STATE_CHECKED))
-    {
-        // Pressurize switch is ON
-        pressureControl.start();
-    }
-    else
-    {
-        // Pressurize switch is OFF
-        pressureControl.reset();
-    }
-}
-
-void switchFillChanged(lv_event_t *e)
-{
-    if (lv_obj_has_state(ui_switchFill, LV_STATE_CHECKED))
-    {
-        fillControl.start();
-    }
-    else
-    {
-        fillControl.reset();
-    }
-}
-
-// Heat Button Events
-void ui_event_buttonHeatEnabled(lv_event_t *e)
-{
-    logButtonState("Heat", true);
-    pasteurizerRelays.activateOperationRelay();
-}
-
-void ui_event_buttonHeatDisabled(lv_event_t *e)
-{
-    logButtonState("Heat", false);
-    pasteurizerRelays.deactivateOperationRelay();
-}
-
-// Operation Button Events
-void ui_event_OperationButtonEnabled(lv_event_t *e)
-{
-    logButtonState("Operation", true);
-    pasteurizerRelays.activateOperationRelay();
-}
-
-void ui_event_OperationButtonDisabled(lv_event_t *e)
-{
-    logButtonState("Operation", false);
-    pasteurizerRelays.deactivateOperationRelay();
-}
-
-// Heat Button Events
-void ui_event_HeatButtonEnabled(lv_event_t *e)
-{
-    logButtonState("Heat", true);
-    pasteurizerRelays.activateHeatRelay();
-}
-
-void ui_event_HeatButtonDisabled(lv_event_t *e)
-{
-    logButtonState("Heat", false);
-    pasteurizerRelays.deactivateHeatRelay();
-}
-
-// Chill Button Events
-void ui_event_ChillButtonEnabled(lv_event_t *e)
-{
-    logButtonState("Chill", true);
-    pasteurizerRelays.activateChillRelay();
-}
-
-void ui_event_ChillButtonDisabled(lv_event_t *e)
-{
-    logButtonState("Chill", false);
-    pasteurizerRelays.deactivateChillRelay();
-}
-
-// Pump Button Events
-void ui_event_PumpButtonEnabled(lv_event_t *e)
-{
-    logButtonState("Pump", true);
-    pasteurizerRelays.activatePumpRelay();
-}
-
-void ui_event_PumpButtonDisabled(lv_event_t *e)
-{
-    logButtonState("Pump", false);
-    pasteurizerRelays.deactivatePumpRelay();
 }
 
 // Generic button handler to toggle state and call appropriate event
@@ -136,36 +44,22 @@ void handleManualControlButton(
     }
 }
 
-// Connect the generic handler to each button
-// void ui_event_OperationButton(lv_event_t *e)
-// {
-//     handleManualControlButton(
-//         e, ui_OperationButton,
-//         stateOperation,
-//         ui_event_OperationButtonEnabled,
-//         ui_event_OperationButtonDisabled);
-// }
+void PlayButtonPressed(lv_event_t *e)
+{
+    audioMaster.playAudioFile("medscan2.wav");
+}
 
-// void ui_event_HeatButton(lv_event_t *e)
-// {
-//     handleManualControlButton(
-//         e, ui_HeatButton, stateHeat,
-//         ui_event_HeatButtonEnabled,
-//         ui_event_HeatButtonDisabled);
-// }
+void BlinkEnabled(lv_event_t *e)
+{
+    audioMaster.setLight(true);
+}
 
-// void ui_event_ChillButton(lv_event_t *e)
-// {
-//     handleManualControlButton(
-//         e, ui_ChillButton, stateChill,
-//         ui_event_ChillButtonEnabled,
-//         ui_event_ChillButtonDisabled);
-// }
+void BlinkDisabled(lv_event_t *e)
+{
+    audioMaster.setLight(false);
+}
 
-// void ui_event_PumpButton(lv_event_t *e)
-// {
-//     handleManualControlButton(
-//         e, ui_PumpButton, statePump,
-//         ui_event_PumpButtonEnabled,
-//         ui_event_PumpButtonDisabled);
-// }
+void StopButtonPressed(lv_event_t *e)
+{
+    audioMaster.stopAudio();
+}

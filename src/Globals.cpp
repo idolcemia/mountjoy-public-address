@@ -1,12 +1,10 @@
 #include "Globals.h"
 
-#include "FillControl.h" // replaced FlowMeter
-
 // Network credentials
-const char *ssid = "mtjyspkl";
-const char *password = "bebubbly";
-const char *server = "3.136.200.179"; // Replace with actual server IP
-const int port = 8000;
+const char *ssid = WIFI_SSID;
+const char *password = WIFI_PASS;
+const char *server = LAN_IP; // Replace with actual server IP
+const int port = PORT;
 
 // Dallas temperature sensor pin assignment.
 #define ONE_WIRE_BUS 12
@@ -24,15 +22,8 @@ NetworkManager *network =
         &logger);
 WiFiClientWrapper *wifiClient = nullptr;
 MenuManager menuManager;
-PasteurizerRelays pasteurizerRelays(4, 5, 6, 7); // on the arduino shield, 4, 7, 8, 12
-TemperatureSensor chamberTemperatureSensor(A0);
-
-
-FillControl fillControl(A5, 5, 4.5); // Sensor pin, valve pin, fill level target in liters (according to sensor)
-// A fill level of 8.5 liters yields 44 liters total yield.
-
-PressureControl pressureControl(2, 3, 4, 6 );
-
+// PasteurizerRelays pasteurizerRelays(0, 0, 0, 0); // Example GPIO pins for relays
+AudioMaster audioMaster(2); // Light pin 5, other pins default
 
 // Global labels
 GlobalLabels gLabels;
@@ -42,12 +33,6 @@ void initGlobals()
     initMenus();
     initWiFiClient();
     initUsers();
-
-    pasteurizerRelays.begin();
-    chamberTemperatureSensor.begin();
-
-    fillControl.begin();
-    pressureControl.begin();
 }
 
 void initMenus()
